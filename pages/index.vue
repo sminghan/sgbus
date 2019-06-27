@@ -10,15 +10,12 @@
         <h2 class="subtitle">
           My first-rate Nuxt.js project
         </h2> -->
+        <!--
+          <Card :bus-stop-name="getStopName('14141')" :bus-stop-code="14141" :service-nos="['145','131']" />
+          -->
         <div class="columns is-desktop">
-          <div class="column">
-            <Card :bus-stop-code="14141" :service-nos="['145','131']" />
-          </div>
-          <div class="column">
-            <Card :bus-stop-code="14249" :service-nos="['145','145A','176']" />
-          </div>
-          <div class="column">
-            <Card :bus-stop-code="66359" :service-nos="['53', '53M']" />
+          <div v-for="item in items" :key="item.BusStopCode" class="column">
+            <Card :bus-stop-name="getStopName(item.BusStopCode)" :bus-stop-code="item.BusStopCode" :service-nos="item.ServiceNos" />
           </div>
         </div>
         <!-- </div> -->
@@ -39,11 +36,33 @@
 <script>
 import Navbar from '~/components/Navbar.vue'
 import Card from '~/components/Card.vue'
+import StopInfo from '~/assets/stopInfo'
 
 export default {
   components: {
     Navbar,
     Card
+  },
+  data: () => ({
+    items: [
+      {
+        BusStopCode: '14141',
+        ServiceNos: ['145', '131']
+      },
+      {
+        BusStopCode: '14249',
+        ServiceNos: ['145', '176']
+      },
+      {
+        BusStopCode: '66359',
+        ServiceNos: ['53', '53M']
+      }
+    ]
+  }),
+  methods: {
+    getStopName: (stopCode) => {
+      return StopInfo[stopCode] || 'stop name goes here'
+    }
   }
 }
 </script>

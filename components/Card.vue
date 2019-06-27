@@ -11,7 +11,7 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="subtitle is-5">
-                {{ "name of the place" }}
+                {{ busStopName }}
               </p>
               <p class="subtitle is-5">
                 {{ timeDiffHuman(lastUpdated) }}
@@ -65,6 +65,10 @@ import moment from 'moment'
 export default {
   name: 'Card',
   props: {
+    'busStopName': {
+      type: String,
+      default: 'stop name goes here'
+    },
     'busStopCode': {
       type: [String, Number],
       default: 14141
@@ -78,8 +82,8 @@ export default {
   },
   data: () => ({
     lastUpdated: 0,
-    // BusStopCode: 14141,
-    // serviceNos: ["145", "145A"],
+    timeNow: moment(),
+    timer: 0,
     isLoading: false,
     services: {},
     errors: []
@@ -101,7 +105,21 @@ export default {
     //     this.errors.push(e)
     //   })
   },
+  mounted() {
+    this.updateTime()
+  },
+  destroyed() {
+    if (this.timer) {
+      clearInterval(this.timer)
+      this.timer = null
+    }
+  },
   methods: {
+    updateTime() {
+      const self = this
+      this.timeNow = moment()
+      setTimeout(self.updateTime, 6000)
+    },
     onReloadClicked: function () {
       if (!this.isLoading) {
         this.reloadData()
@@ -114,10 +132,8 @@ export default {
         .then((response) => {
           self.serviceNos.forEach((serviceNo) => {
             self.services[serviceNo] = self.extractBusService(response.data.data, serviceNo)
-            // eslint-disable-next-line no-console
-            console.log(self.services[serviceNo])
           })
-          self.lastUpdated = response.timestamp
+          self.lastUpdated = response.data.timestamp
           self.isLoading = false
         })
         .catch((e) => {
@@ -125,15 +141,18 @@ export default {
           self.isLoading = false
         })
     },
-    timeDiffMinute: (time) => {
-      const x = moment()
+    timeDiffMinute: function (time) {
+      const x = this.timeNow
       const t = moment(time)
       const r = Math.round(moment.duration(t.diff(x)).asMinutes() * 10) / 10
       return (r > 0) ? r : 'Arr'
     },
-    timeDiffHuman: (time) => {
-      const x = moment()
+    timeDiffHuman: function (time) {
+      if (time === 0) return 'never'
+      const x = this.timeNow
       const t = moment(time)
+      // eslint-disable-next-line
+      console.log('x', x.format(), 't', t.format(), 'wtf', time)
       return moment.duration(t.diff(x)).humanize(true)
     },
     extractBusService: (data, serviceNo) => {
