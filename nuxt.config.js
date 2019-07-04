@@ -52,6 +52,16 @@ export default {
     // See https://github.com/nuxt-community/axios-module#options
   },
 
+  // set caching to cacheFirst
+  workbox: {
+    runtimeCaching: [
+      {
+        urlPattern: 'https://sgbus.netlify.com/_nuxt/.*',
+        handler: 'cacheFirst'
+      }
+    ]
+  },
+
   /*
   ** Build configuration
   */
