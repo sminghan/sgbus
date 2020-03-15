@@ -1,56 +1,42 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <div class="box content">
-        <header class="level">
-          <div class="level-item has-text-centered">
-            <h1 class="title">
-              {{ busStopCode }}
-            </h1>
+  <div class="box content tile is-child is-4">
+    <p class="title is-3">
+      {{ busStopCode }}
+    </p>
+    <p class="subtitle is-4">
+      {{ busStopName }}
+    </p>
+    <div class="">
+      {{ timeDiffHuman(lastUpdated) }}
+      <a :class="{'is-loading':isLoading}" @click="onReloadClicked" class="button is-rounded is-right float is-small">{{ isLoading ? 'x' : 'R' }}</a>
+    </div>
+    <div class="box content">
+      <div v-for="(obj, servNo) in services" :key="servNo" class="">
+        <div v-if="!!obj" class="level is-mobile">
+          <div class="level-item subtitle has-text-centered">
+            {{ obj.ServiceNo }}
           </div>
           <div class="level-item has-text-centered">
-            <div>
-              <p class="subtitle is-5">
-                {{ busStopName }}
-              </p>
-              <p class="subtitle is-5">
-                {{ timeDiffHuman(lastUpdated) }}
-                <a class="button is-rounded is-right float is-small" :class="{'is-loading':isLoading}" @click="onReloadClicked">{{ isLoading ? 'x' : 'R' }}</a>
-              </p>
-            </div>
+            {{ obj.NextBus ? timeDiffMinute(obj.NextBus.EstimatedArrival) : '-' }}
           </div>
-        </header>
-        <div v-if="serviceNos && serviceNos.length" class="">
-          <div v-for="(obj, servNo) in services" :key="servNo" class="card">
-            <div class="card-content">
-              <div v-if="!!obj" class="level is-mobile">
-                <div class="level-item subtitle has-text-centered">
-                  {{ obj.ServiceNo }}
-                </div>
-                <div class="level-item has-text-centered">
-                  {{ obj.NextBus ? timeDiffMinute(obj.NextBus.EstimatedArrival) : '-' }}
-                </div>
-                <div class="level-item has-text-centered">
-                  {{ obj.NextBus2 ? timeDiffMinute(obj.NextBus2.EstimatedArrival) : '-' }}
-                </div>
-                <div class="level-item has-text-centered">
-                  {{ obj.NextBus3 ? timeDiffMinute(obj.NextBus3.EstimatedArrival) : '-' }}
-                </div>
-              </div>
-              <div v-else>
-                {{ `${servNo} No Bus Timings` }}
-              </div>
-              <div v-if="errors && errors.length" class="card-footer">
-                <p v-for="e in errors" :key="e">
-                  {{ e }}
-                </p>
-              </div>
-            </div>
+          <div class="level-item has-text-centered">
+            {{ obj.NextBus2 ? timeDiffMinute(obj.NextBus2.EstimatedArrival) : '-' }}
           </div>
+          <div class="level-item has-text-centered">
+            {{ obj.NextBus3 ? timeDiffMinute(obj.NextBus3.EstimatedArrival) : '-' }}
+          </div>
+        </div>
+        <div v-else>
+          {{ `${servNo} No Bus Timings` }}
+        </div>
+        <div v-if="errors && errors.length" class="">
+          <p v-for="e in errors" :key="e">
+            {{ e }}
+          </p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -65,18 +51,18 @@ import moment from 'moment'
 export default {
   name: 'Card',
   props: {
-    'busStopName': {
+    busStopName: {
       type: String,
       default: 'stop name goes here'
     },
-    'busStopCode': {
+    busStopCode: {
       type: [String, Number],
       default: 14141
     },
-    'serviceNos': {
+    serviceNos: {
       type: Array,
       default: function () {
-        return ['145']
+        return []
       }
     }
   },
@@ -89,24 +75,11 @@ export default {
     errors: []
   }),
   created() {
-    this.reloadData()
-    // this.isLoading = true
-    // axios.get(`https://wt-5a6110d2d10be45a74f37503ca30869c-0.sandbox.auth0-extend.com/get-bus-timings?BusStopCode=${this.busStopCode}`)
-    //   .then((response) => {
-    //     this.serviceNos.forEach((serviceNo) => {
-    //       this.services[serviceNo] = this.extractBusService(response.data.data, serviceNo)
-    //       // eslint-disable-next-line no-console
-    //       // console.log(this.services[serviceNo])
-    //     })
-    //     this.lastUpdated = response.timestamp
-    //     this.isLoading = false
-    //   })
-    //   .catch((e) => {
-    //     this.errors.push(e)
-    //   })
+    // this.reloadData()
   },
   mounted() {
-    this.updateTime()
+    const self = this
+    this.timer = setTimeout(self.updateTime, 6000)
   },
   destroyed() {
     if (this.timer) {
@@ -118,7 +91,7 @@ export default {
     updateTime() {
       const self = this
       this.timeNow = moment()
-      setTimeout(self.updateTime, 6000)
+      this.timer = setTimeout(self.updateTime, 6000)
     },
     onReloadClicked: function () {
       if (!this.isLoading) {
@@ -128,18 +101,29 @@ export default {
     reloadData: function () {
       const self = this
       self.isLoading = true
+      // Vue.set(this.items,this.count.toString(),this.count);
       axios.get(`https://wt-5a6110d2d10be45a74f37503ca30869c-0.sandbox.auth0-extend.com/get-bus-timings?BusStopCode=${this.busStopCode}`)
         .then((response) => {
-          self.serviceNos.forEach((serviceNo) => {
-            self.services[serviceNo] = self.extractBusService(response.data.data, serviceNo)
-          })
-          self.lastUpdated = response.data.timestamp
-          self.isLoading = false
+          self.updateData(response.data)
         })
         .catch((e) => {
           self.errors.push(e)
           self.isLoading = false
         })
+    },
+    updateData: function (data) {
+      const self = this
+      if (self.serviceNos.length === 0) {
+        // self.services = self.extractAllBusService(response.data.data)
+        self.$set(self, 'services', self.extractAllBusService(data.data))
+      } else {
+        self.services = {}
+        self.serviceNos.forEach((serviceNo) => {
+          self.$set(self.services, serviceNo.toString(), self.extractBusService(data.data, serviceNo))
+        })
+      }
+      self.lastUpdated = data.timestamp
+      self.isLoading = false
     },
     timeDiffMinute: function (time) {
       const x = this.timeNow
@@ -151,9 +135,14 @@ export default {
       if (time === 0) return 'never'
       const x = this.timeNow
       const t = moment(time)
-      // eslint-disable-next-line
-      console.log('x', x.format(), 't', t.format(), 'wtf', time)
       return moment.duration(t.diff(x)).humanize(true)
+    },
+    extractAllBusService: (data) => {
+      const services = {}
+      for (const service of data.Services) {
+        services[service.ServiceNo] = service
+      }
+      return services
     },
     extractBusService: (data, serviceNo) => {
       const services = data.Services || []

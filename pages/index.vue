@@ -1,35 +1,28 @@
 <template>
-  <section class="home">
+  <section class="main">
     <Navbar />
-    <div class="hero">
-      <section class="container">
-        <!-- <div> -->
-        <!-- <h1 class="title">
-          sgbus
-        </h1>
-        <h2 class="subtitle">
-          My first-rate Nuxt.js project
-        </h2> -->
-        <!--
-          <Card :bus-stop-name="getStopName('14141')" :bus-stop-code="14141" :service-nos="['145','131']" />
-          -->
-        <div class="columns is-desktop">
-          <div v-for="item in items" :key="item.BusStopCode" class="column">
-            <Card :bus-stop-name="getStopName(item.BusStopCode)" :bus-stop-code="item.BusStopCode" :service-nos="item.ServiceNos" />
+    <div class="container">
+      <div class="tile is-ancestor" style="margin-top:50px">
+        <div class="tile is-parent is-12">
+          <div class="box content tile is-child is-4">
+            <label for="manual">Bus Stop Code</label>
+            <input id="manual" v-model.number="manualBusStopCode" placeholder="Enter Bus Stop Code" type="number">
           </div>
+          <Card
+            v-if="manualBusStopCode > 9999 && manualBusStopCode < 100000"
+            :bus-stop-name="getStopName(manualBusStopCode)"
+            :bus-stop-code="manualBusStopCode"
+          />
+          <Card
+            v-for="item in items"
+            :key="item.BusStopCode"
+            :bus-stop-name="getStopName(item.BusStopCode)"
+            :bus-stop-code="item.BusStopCode"
+            :service-nos="item.ServiceNos"
+          />
         </div>
-        <!-- </div> -->
-      </section>
-    </div>
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <a href="https://bulma.io">
-            <img src="https://bulma.io/images/made-with-bulma.png" alt="Made with Bulma" width="128" height="24">
-          </a>
-        </p>
       </div>
-    </footer>
+    </div>
   </section>
 </template>
 
@@ -44,6 +37,7 @@ export default {
     Card
   },
   data: () => ({
+    manualBusStopCode: null,
     items: [
       {
         BusStopCode: '14141',

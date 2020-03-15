@@ -5,18 +5,18 @@
             <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
       </a>-->
       <a class="navbar-item" href="https://sgbus.netlify.com">
-        <Logo />
+        <!--        <Logo />-->
         <span class="has-text-weight-bold">sgbus</span>
       </a>
 
       <a
+        :class="{'is-active': isOpen}"
+        @click="isOpen = !isOpen"
         role="button"
         class="navbar-burger burger"
-        :class="{'is-active': isOpen}"
         aria-label="menu"
         aria-expanded="false"
         data-target="navbarBasicExample"
-        @click="isOpen = !isOpen"
       >
         <span aria-hidden="true" />
         <span aria-hidden="true" />
@@ -26,23 +26,23 @@
 
     <div
       id="navbarBasicExample"
-      class="navbar-menu"
       :class="{'is-active': isOpen}"
+      class="navbar-menu"
     >
       <div class="navbar-start">
-        <a class="navbar-item">Home</a>
-        <a class="navbar-item">Settings</a>
+        <!--  <a class="navbar-item">Home</a>-->
+        <!--  <a class="navbar-item">Settings</a>-->
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+// import Logo from '~/components/Logo.vue'
 
 export default {
   components: {
-    Logo
+    // Logo
   },
   data: function () {
     return {

@@ -10,7 +10,7 @@
 <style>
 .VueToNuxtLogo {
   display: inline-block;
-  animation: turn 2s linear forwards 1s;
+  /* animation: turn 2s linear forwards 1s; */
   transform: rotateX(180deg);
   position: relative;
   overflow: hidden;
@@ -35,7 +35,7 @@
 .Triangle--two {
   top: 5px; /*30*/
   left: 6px; /*35*/
-  animation: goright 0.5s linear forwards 3.5s;
+  /*animation: goright 0.5s linear forwards 3.5s;*/
   border-left: 13px solid transparent; /* 87.5 */
   border-right: 13px solid transparent; /* 87.5 */
   border-bottom: 23px solid #3b8070; /* 150 */
@@ -44,7 +44,7 @@
 .Triangle--three {
   top: 9px; /*60*/
   left: 6px; /*35*/
-  animation: goright 0.5s linear forwards 3.5s;
+  /*animation: goright 0.5s linear forwards 3.5s;*/
   border-left: 11px solid transparent; /*70*/
   border-right: 11px solid transparent;/*70*/
   border-bottom: 18px solid #35495e; /*120*/
@@ -53,7 +53,7 @@
 .Triangle--four {
   top: 18px; /*120*/
   left: 11px; /*70*/
-  animation: godown 0.5s linear forwards 3s;
+  /*animation: godown 0.5s linear forwards 3s;*/
   border-left: 5px solid transparent; /*35*/
   border-right: 5px solid transparent; /*35*/
   border-bottom: 9px solid #fff;/*60*/

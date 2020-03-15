@@ -36,6 +36,21 @@ export default {
   ],
 
   /*
+  ** webpack config
+   */
+
+  // watchers: {
+  //   webpack: {
+  //     aggregateTimeout: 300,
+  //     poll: 1000,
+  //     watch: true,
+  //     watchOptions: {
+  //       ignored: ['node_modules/**']
+  //     }
+  //   }
+  // },
+
+  /*
   ** Nuxt.js modules
   */
   modules: [
