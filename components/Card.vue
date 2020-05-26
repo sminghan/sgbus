@@ -17,13 +17,22 @@
             {{ obj.ServiceNo }}
           </div>
           <div class="level-item has-text-centered">
-            {{ obj.NextBus ? timeDiffMinute(obj.NextBus.EstimatedArrival) : '-' }}
+            <div>
+              <span v-if="obj.NextBus && obj.NextBus.VisitNumber==='2'" class="tag is-rounded is-small is-success">2nd</span>
+              <p class="subtitle is-4">{{ obj.NextBus ? timeDiffMinute(obj.NextBus.EstimatedArrival) : '-' }}</p>
+            </div>
           </div>
           <div class="level-item has-text-centered">
-            {{ obj.NextBus2 ? timeDiffMinute(obj.NextBus2.EstimatedArrival) : '-' }}
+            <div>
+              <span v-if="obj.NextBus2 && obj.NextBus2.VisitNumber==='2'" class="tag is-rounded is-small is-success">2nd</span>
+              <p class="subtitle is-4">{{ obj.NextBus2 ? timeDiffMinute(obj.NextBus2.EstimatedArrival) : '-' }}</p>
+            </div>
           </div>
           <div class="level-item has-text-centered">
-            {{ obj.NextBus3 ? timeDiffMinute(obj.NextBus3.EstimatedArrival) : '-' }}
+            <div>
+              <span v-if="obj.NextBus3 && obj.NextBus3.VisitNumber==='2'" class="tag is-rounded is-small is-success">2nd</span>
+              <p class="subtitle is-4">{{ obj.NextBus3 ? timeDiffMinute(obj.NextBus3.EstimatedArrival) : '-' }}</p>
+            </div>
           </div>
         </div>
         <div v-else>

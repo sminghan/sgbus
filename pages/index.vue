@@ -48,6 +48,10 @@ export default {
         ServiceNos: ['145', '176']
       },
       {
+        BusStopCode: '43719',
+        ServiceNos: ['177']
+      },
+      {
         BusStopCode: '66359',
         ServiceNos: ['53', '53M']
       }
