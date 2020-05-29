@@ -8,7 +8,7 @@
     </p>
     <div class="">
       {{ timeDiffHuman(lastUpdated) }}
-      <a :class="{'is-loading':isLoading}" @click="onReloadClicked" class="button is-rounded is-right float is-small">{{ isLoading ? 'x' : 'R' }}</a>
+      <a :class="{'is-loading':isLoading}" class="button is-rounded is-right float is-small" @click="onReloadClicked">{{ isLoading ? 'x' : 'R' }}</a>
     </div>
     <div class="box content">
       <div v-for="(obj, servNo) in services" :key="servNo" class="">
@@ -18,20 +18,26 @@
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <span v-if="obj.NextBus && obj.NextBus.VisitNumber==='2'" class="tag is-rounded is-small is-success">2nd</span>
-              <p class="subtitle is-4">{{ obj.NextBus ? timeDiffMinute(obj.NextBus.EstimatedArrival) : '-' }}</p>
+              <span v-if="obj.NextBus && obj.NextBus.VisitNumber==='2'" class="tag is-rounded is-small is-info is-light">2nd</span>
+              <p class="subtitle is-4">
+                {{ obj.NextBus ? timeDiffMinute(obj.NextBus.EstimatedArrival) : '-' }}
+              </p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <span v-if="obj.NextBus2 && obj.NextBus2.VisitNumber==='2'" class="tag is-rounded is-small is-success">2nd</span>
-              <p class="subtitle is-4">{{ obj.NextBus2 ? timeDiffMinute(obj.NextBus2.EstimatedArrival) : '-' }}</p>
+              <span v-if="obj.NextBus2 && obj.NextBus2.VisitNumber==='2'" class="tag is-rounded is-small is-info is-light">2nd</span>
+              <p class="subtitle is-4">
+                {{ obj.NextBus2 ? timeDiffMinute(obj.NextBus2.EstimatedArrival) : '-' }}
+              </p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
-              <span v-if="obj.NextBus3 && obj.NextBus3.VisitNumber==='2'" class="tag is-rounded is-small is-success">2nd</span>
-              <p class="subtitle is-4">{{ obj.NextBus3 ? timeDiffMinute(obj.NextBus3.EstimatedArrival) : '-' }}</p>
+              <span v-if="obj.NextBus3 && obj.NextBus3.VisitNumber==='2'" class="tag is-rounded is-small is-info is-light">2nd</span>
+              <p class="subtitle is-4">
+                {{ obj.NextBus3 ? timeDiffMinute(obj.NextBus3.EstimatedArrival) : '-' }}
+              </p>
             </div>
           </div>
         </div>
