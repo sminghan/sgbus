@@ -6,11 +6,11 @@
         <div class="tile is-parent is-12">
           <div class="box content tile is-child is-4">
             <label for="manual">Bus Stop Code</label>
-            <input id="manual" v-model.number="manualBusStopCode" placeholder="Enter Bus Stop Code" type="number">
+            <input id="manual" v-model.number="manualBusStopCode" placeholder="Enter Bus Stop Code" type="tel" pattern="[0-9]*">
           </div>
           <Card
-            v-if="manualBusStopCode > 9999 && manualBusStopCode < 100000"
-            :bus-stop-name="getStopName(manualBusStopCode)"
+            v-if="manualBusStopCode.length > 4 && manualBusStopCode.length < 6"
+            :bus-stop-name="getStopName(parseInt(manualBusStopCode))"
             :bus-stop-code="manualBusStopCode"
           />
           <Card
@@ -30,6 +30,7 @@
 import Navbar from '~/components/Navbar.vue'
 import Card from '~/components/Card.vue'
 import StopInfo from '~/assets/stopInfo'
+import { mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -57,10 +58,18 @@ export default {
       }
     ]
   }),
+  computed: {
+    faves() {
+      return this.$store.state.faves
+    }
+  },
   methods: {
     getStopName: (stopCode) => {
       return StopInfo[stopCode] || 'stop name goes here'
-    }
+    },
+    ...mapMutations({
+      toggle: 'toggle'
+    })
   }
 }
 </script>
