@@ -10,7 +10,7 @@
           </div>
           <Card
             v-if="manualBusStopCode.length > 4 && manualBusStopCode.length < 6"
-            :bus-stop-name="getStopName(parseInt(manualBusStopCode))"
+            :bus-stop-name="getStopName(manualBusStopCode)"
             :bus-stop-code="manualBusStopCode"
           />
           <Card
