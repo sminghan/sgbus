@@ -57,6 +57,10 @@
 <script>
 import axios from 'axios'
 import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+dayjs.extend(duration).extend(relativeTime)
 
 // const getAllBusService = (data) => {
 //   const { Services: [] } = data;
