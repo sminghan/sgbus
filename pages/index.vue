@@ -6,7 +6,7 @@
         <div class="tile is-parent is-12">
           <div class="box content tile is-child is-4">
             <label for="manual">Bus Stop Code</label>
-            <input id="manual" v-model.number="manualBusStopCode" placeholder="Enter Bus Stop Code" type="tel" pattern="[0-9]*">
+            <input id="manual" v-model="manualBusStopCode" placeholder="Enter Bus Stop Code" type="tel" pattern="[0-9]*">
           </div>
           <Card
             v-if="manualBusStopCode.length > 4 && manualBusStopCode.length < 6"
@@ -38,7 +38,7 @@ export default {
     Card
   },
   data: () => ({
-    manualBusStopCode: null,
+    manualBusStopCode: '',
     items: [
       {
         BusStopCode: '14141',

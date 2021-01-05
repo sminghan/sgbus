@@ -11,7 +11,7 @@ export const state = () => ({
 export const mutations = {
   add(state, text, stops) {
     state.list.push(text)
-    state.faves[]
+    state.faves[text] = stops
   },
   remove(state, { todo }) {
     state.list.splice(state.list.indexOf(todo), 1)

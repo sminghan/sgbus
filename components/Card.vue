@@ -56,7 +56,7 @@
 
 <script>
 import axios from 'axios'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 // const getAllBusService = (data) => {
 //   const { Services: [] } = data;
@@ -83,7 +83,7 @@ export default {
   },
   data: () => ({
     lastUpdated: 0,
-    timeNow: moment(),
+    timeNow: dayjs(),
     timer: 0,
     isLoading: false,
     services: {},
@@ -105,7 +105,7 @@ export default {
   methods: {
     updateTime() {
       const self = this
-      this.timeNow = moment()
+      this.timeNow = dayjs()
       this.timer = setTimeout(self.updateTime, 6000)
     },
     onReloadClicked: function () {
@@ -142,15 +142,15 @@ export default {
     },
     timeDiffMinute: function (time) {
       const x = this.timeNow
-      const t = moment(time)
-      const r = Math.round(moment.duration(t.diff(x)).asMinutes() * 10) / 10
+      const t = dayjs(time)
+      const r = Math.round(dayjs.duration(t.diff(x)).asMinutes() * 10) / 10
       return (r > 0) ? r : 'Arr'
     },
     timeDiffHuman: function (time) {
       if (time === 0) return 'never'
       const x = this.timeNow
-      const t = moment(time)
-      return moment.duration(t.diff(x)).humanize(true)
+      const t = dayjs(time)
+      return dayjs.duration(t.diff(x)).humanize(true)
     },
     extractAllBusService: (data) => {
       const services = {}
