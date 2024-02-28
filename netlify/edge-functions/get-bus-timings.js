@@ -1,6 +1,7 @@
 export default async (request, context) => {
     const API_KEY = Netlify.env.get("BUS_KEY");
-    const BusStopCode = request.getParameter("BusStopCode")
+    const url = new URL(request.url);
+    const BusStopCode = url.searchParams.get("BusStopCode")
     
     const myHeaders = new Headers();
     myHeaders.append("AccountKey", API_KEY);
