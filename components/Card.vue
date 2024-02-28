@@ -124,7 +124,7 @@ export default {
       fetch(`/get-bus-timings?BusStopCode=${this.busStopCode}`)
         .then((response) => {
           response.json().then((pv) => {
-            self.updateData(pv.data)
+            self.updateData(pv)
           });
         })
         .catch((e) => {
