@@ -119,11 +119,13 @@ export default {
     reloadData: function () {
       const self = this
       self.isLoading = true
-      console.log('reloadData', this.busStopCode)
+      //console.log('reloadData', this.busStopCode)
       // Vue.set(this.items,this.count.toString(),this.count);
       fetch(`/get-bus-timings?BusStopCode=${this.busStopCode}`)
         .then((response) => {
-          self.updateData(response.data)
+          response.json().then((pv) => {
+            self.updateData(pv.data)
+          });
         })
         .catch((e) => {
           self.errors.push(e)
@@ -132,7 +134,7 @@ export default {
     },
     updateData: function (data) {
       const self = this
-      console.log('updateData', this.busStopCode)
+      //console.log('updateData', this.busStopCode)
       if (self.serviceNos.length === 0) {
         // self.services = self.extractAllBusService(response.data.data)
         self.$set(self, 'services', self.extractAllBusService(data.data))
