@@ -136,11 +136,13 @@ export default {
       const self = this
       //console.log('updateData', this.busStopCode)
       if (self.serviceNos.length === 0) {
-        self.$set(self, 'services', self.extractAllBusService(data))
+        self.services = self.extractAllBusService(data)
+        //self.$set(self, 'services', self.extractAllBusService(data))
       } else {
         self.services = {}
         self.serviceNos.forEach((serviceNo) => {
-          self.$set(self.services, serviceNo.toString(), self.extractBusService(data, serviceNo))
+          self.services[serviceNo] = self.extractBusService(data, serviceNo)
+          //self.$set(self.services, serviceNo.toString(), self.extractBusService(data, serviceNo))
         })
       }
       self.lastUpdated = Date.now()
