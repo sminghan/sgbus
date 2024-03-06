@@ -1,4 +1,5 @@
 <template>
+  <NuxtPwaManifest />
   <section class="main">
     <div class="container">
       <div class="tile is-ancestor" style="margin-top:50px">
