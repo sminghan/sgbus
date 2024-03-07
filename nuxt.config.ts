@@ -8,6 +8,7 @@ export default defineNuxtConfig({
   ],
   pwa: {
     manifest: {
+      theme_color: '#ffffff',
       icons: [
         {
           src: 'pwa-64x64.png',
@@ -31,7 +32,8 @@ export default defineNuxtConfig({
           type: 'image/png',
           purpose: 'maskable'
         }
-      ]
+      ],
+      start_url: ""
     },
     registerWebManifestInRouteRules: true
   }

@@ -1,6 +1,7 @@
 <template>
   <div class="box content tile is-child is-12">
-    <p class="title is-3" @click="$emit('stop-clicked', busStopCode)">
+    <p class="title is-3">
+      <button :class="{'is-info':stopIsSelected}" class="button is-rounded" @click="onStopClicked(busStopCode)">&#x2605;</button>
       {{ busStopCode }}
     </p>
     <p class="subtitle is-4">
@@ -8,13 +9,13 @@
     </p>
     <div class="">
       {{ timeDiffHuman(lastUpdated) }}
-      <a :class="{'is-loading':isLoading}" class="button is-rounded is-right float is-small" @click="onReloadClicked">{{ isLoading ? 'x' : 'R' }}</a>
+      <button :class="{'is-loading':isLoading}" class="button is-rounded is-right float is-small" @click="onReloadClicked">{{ isLoading ? 'x' : 'R' }}</button>
     </div>
     <div class="box content">
       <div v-for="(obj, servNo) in services" :key="servNo" class="">
         <div v-if="!!obj" class="level is-mobile">
           <div class="level-item subtitle has-text-centered">
-            {{ obj.ServiceNo }}
+            <button :class="{'is-info':obj.isSelected}" class="button is-rounded" @click="onServiceClicked(busStopCode, servNo)">{{ obj.ServiceNo }}</button>
           </div>
           <div class="level-item has-text-centered">
             <div>
@@ -82,6 +83,12 @@ export default {
       default: function () {
         return []
       }
+    },
+    getStopState: {
+      type: Function,
+      default: function () {
+        return null
+      }
     }
   },
   data: () => ({
@@ -89,6 +96,7 @@ export default {
     timeNow: dayjs(),
     timer: 0,
     isLoading: false,
+    stopIsSelected: false,
     services: {},
     errors: []
   }),
@@ -116,6 +124,20 @@ export default {
         this.reloadData()
       }
     },
+    onStopClicked: function (stopCode) {
+      const self = this
+      self.stopIsSelected = !self.stopIsSelected
+      self.$emit('stop-clicked', stopCode)
+    },
+    onServiceClicked: function (stopCode, serviceNo) {
+      const self = this
+      if (!self.stopIsSelected) {
+        self.stopIsSelected = !self.stopIsSelected
+        self.$emit('stop-clicked', stopCode)
+      }
+      self.services[serviceNo].isSelected = !self.services[serviceNo].isSelected
+      self.$emit('service-clicked', stopCode, serviceNo)
+    },
     reloadData: function () {
       const self = this
       self.isLoading = true
@@ -134,15 +156,19 @@ export default {
     },
     updateData: function (data) {
       const self = this
+      const stopState = self.getStopState(self.busStopCode)
+      self.stopIsSelected = stopState != null
+      const selectedServiceNos = stopState ? stopState.ServiceNos : []
       //console.log('updateData', this.busStopCode)
       if (self.serviceNos.length === 0) {
         self.services = self.extractAllBusService(data)
-        //self.$set(self, 'services', self.extractAllBusService(data))
+        for (serviceNo of selectedServiceNos) {
+          self.services[serviceNo].isSelected = true
+        }
       } else {
         self.services = {}
         self.serviceNos.forEach((serviceNo) => {
           self.services[serviceNo] = self.extractBusService(data, serviceNo)
-          //self.$set(self.services, serviceNo.toString(), self.extractBusService(data, serviceNo))
         })
       }
       self.lastUpdated = Date.now()
