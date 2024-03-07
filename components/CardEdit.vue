@@ -97,6 +97,7 @@ export default {
     timer: 0,
     isLoading: false,
     stopIsSelected: false,
+    servicesBusStopCode: '',
     services: {},
     errors: []
   }),
@@ -111,7 +112,9 @@ export default {
     const self = this
     const stopState = self.getStopState(self.busStopCode)
     self.stopIsSelected = stopState != null
-    self.services = {}
+    if (self.servicesBusStopCode != self.busStopCode){
+      self.services = {}
+    }
   },
   destroyed() {
     if (this.timer) {
@@ -163,6 +166,7 @@ export default {
     updateData: function (data) {
       const self = this
       const stopState = self.getStopState(self.busStopCode)
+      self.servicesBusStopCode = self.busStopCode
       self.stopIsSelected = stopState != null
       const selectedServiceNos = stopState ? stopState.ServiceNos : []
       //console.log('updateData', this.busStopCode)
