@@ -135,7 +135,13 @@ export default {
     },
     onStopClicked: function (stopCode) {
       const self = this
+      if (self.stopIsSelected) {
+        for (const serviceNo of Object.keys(self.services)) {
+          self.services[serviceNo].isSelected = false
+        }
+      }
       self.stopIsSelected = !self.stopIsSelected
+      
       self.$emit('stop-clicked', stopCode)
     },
     onServiceClicked: function (stopCode, serviceNo) {
