@@ -111,6 +111,7 @@ export default {
     const self = this
     const stopState = self.getStopState(self.busStopCode)
     self.stopIsSelected = stopState != null
+    self.services = {}
   },
   destroyed() {
     if (this.timer) {

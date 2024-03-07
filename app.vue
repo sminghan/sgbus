@@ -114,6 +114,7 @@ export default {
           let check = self.items[i].ServiceNos.indexOf(serviceNo)
           if (check > -1) {
             self.items[i].ServiceNos[check] = self.items[i].ServiceNos[self.items[i].ServiceNos.length-1]
+            self.items[i].ServiceNos.pop()
           } else {
             self.items[i].ServiceNos.push(serviceNo)
           }
