@@ -107,6 +107,11 @@ export default {
     const self = this
     this.timer = setTimeout(self.updateTime, 6000)
   },
+  beforeUpdate() {
+    const self = this
+    const stopState = self.getStopState(self.busStopCode)
+    self.stopIsSelected = stopState != null
+  },
   destroyed() {
     if (this.timer) {
       clearInterval(this.timer)
@@ -162,7 +167,7 @@ export default {
       //console.log('updateData', this.busStopCode)
       if (self.serviceNos.length === 0) {
         self.services = self.extractAllBusService(data)
-        for (serviceNo of selectedServiceNos) {
+        for (const serviceNo of selectedServiceNos) {
           self.services[serviceNo].isSelected = true
         }
       } else {
