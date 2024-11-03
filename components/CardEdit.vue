@@ -179,6 +179,9 @@ export default {
       if (self.serviceNos.length === 0) {
         self.services = self.extractAllBusService(data)
         for (const serviceNo of selectedServiceNos) {
+          if (!(serviceNo in self.services)){
+            self.services[serviceNo] = null
+          }
           self.services[serviceNo].isSelected = true
         }
       } else {

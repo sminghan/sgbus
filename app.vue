@@ -43,7 +43,7 @@ export default {
     items: [
       {
         BusStopCode: '14141',
-        ServiceNos: ['145', '131']
+        ServiceNos: ['145', '131','111']
       },
       {
         BusStopCode: '14249',
@@ -52,10 +52,6 @@ export default {
       {
         BusStopCode: '43719',
         ServiceNos: ['177']
-      },
-      {
-        BusStopCode: '66359',
-        ServiceNos: ['53', '53M']
       }
     ]
   }),
