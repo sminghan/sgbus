@@ -180,7 +180,7 @@ export default {
         self.services = self.extractAllBusService(data)
         for (const serviceNo of selectedServiceNos) {
           if (!(serviceNo in self.services)){
-            self.services[serviceNo] = null
+            self.services[serviceNo] = {ServiceNo: serviceNo}
           }
           self.services[serviceNo].isSelected = true
         }
