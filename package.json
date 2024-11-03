@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
-    "generate": "nuxt generate",
+    "generate": "NITRO_PRESET=netlify nuxt build && NITRO_PRESET=netlify-static nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "generate-pwa-assets": "pwa-assets-generator"
