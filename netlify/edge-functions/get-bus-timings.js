@@ -11,8 +11,8 @@ export default async (request, context) => {
       headers: myHeaders,
       redirect: "follow"
     };
-    
-    const urlString = "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" + BusStopCode;
+
+    const urlString = "https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode=" + BusStopCode;
 
     const response = await fetch(urlString, requestOptions)
     const jsonData = await response.json()
